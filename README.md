@@ -1,5 +1,7 @@
 Week 8/13 - 8/18:
-    leetcode# 409. longestPalindrome
+    leetcode#:
+              
+              409. longestPalindrome
               125. Valid Palindrome   
               28.  Implement strStr()   
               5.   Longest Palindromic Substring
