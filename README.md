@@ -15,4 +15,5 @@ Week 8/13 - 8/18:
 
 links: 
 http://206.81.6.248:12306/leetcode/Google/algorithm
+
 https://www.lintcode.com/ladder/1/
