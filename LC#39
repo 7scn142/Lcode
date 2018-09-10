@@ -24,6 +24,10 @@ class Solution:
             if target < candidates[i]:
                 return 
             combi.append(candidates[i])
+            # the index is the most important value:
+            # if i: repeatable combination
+            # if i + 1: non-repeatable combination
+            # if start: permutation
             self.helper(candidates, target - candidates[i], ret, combi, i)
             #here, i means search from next value, if need permutation , change i to 0
             combi.pop()
