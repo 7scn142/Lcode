@@ -6,7 +6,6 @@ class Solution:
     @return: A list of lists of integers
     """
     def combinationSum(self, candidates, target):
-        # write your code here
         candidates = sorted(list(set(candidates)))
         ret = []
         index = 0
@@ -17,6 +16,7 @@ class Solution:
     def helper(self, candidates, target, ret, combi, index):
         
         if target == 0:
+            #list is passed by address, needs deepcopy
             res = copy.deepcopy(combi)
             ret.append(res)
         
@@ -25,4 +25,5 @@ class Solution:
                 return 
             combi.append(candidates[i])
             self.helper(candidates, target - candidates[i], ret, combi, i)
+            #here, i means search from next value, if need permutation , change i to 0
             combi.pop()
