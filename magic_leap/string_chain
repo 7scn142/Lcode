@@ -1,0 +1,36 @@
+    def string_chain(self, words, target):
+        if not words or not target:
+            return 0
+        if len(target) == 1:
+            return 1
+        dic = self.build_dict(words)
+        print dic
+        if target in dic:
+            return dic[target]
+
+        dist = -float('inf')
+        for i in range(len(target)):
+            candi = target[:i] + target[i + 1:]
+            if candi not in dic:
+                continue
+            if dic[candi] > dist:
+                dist = dic[candi]
+        return dist
+
+    def build_dict(self, words):
+        words = list(set(words))
+        words.sort(key = len)
+        dic = dict()
+        for word in words:
+            if len(word) == 1:
+                dic[word] = 1
+                continue
+            maxdist = -float('inf')
+            for i in range(len(word)):
+                candi = word[: i] + word[i + 1:]
+                if not candi in dic:
+                    continue
+                if dic[candi] > maxdist:
+                    maxdist = dic[candi]
+                    dic[word] = maxdist + 1
+        return dic
