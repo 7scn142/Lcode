@@ -1,0 +1,4 @@
+Kth smallest element:
+  solution 1: list.sort(), O(nlogn)
+  solution 2: heapq.nsmallest(k, list), O(klogn)
+  solution 3: quickSelect(), O(n)
