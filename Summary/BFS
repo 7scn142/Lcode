@@ -1,0 +1,50 @@
+#use deque to do level traverse:
+#
+#where to use:
+#   shortest path problem
+#   topological sort problem: pop those inDegree == 0
+
+
+###############################
+#binary tree BFS level traverse 
+###############################
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+from collections import deque
+class Solution:
+    """
+    @param root: A Tree
+    @return: Level order a list of lists of integer
+    """
+    def levelOrder(self, root):
+        # write your code here
+        if not root:
+            return []
+        
+        que = deque()
+        que.append(root)
+        ret = []
+
+        while que:
+            level = []
+            for _ in range(len(que)):
+                curr = que.popleft()
+                level.append(curr.val)
+                if curr.left:
+                    que.append(curr.left)
+                if curr.right:
+                    que.append(curr.right)
+            ret.append(level)
+            
+        return ret
+        
+        
+        
+###############################
+# topological sort using BFS 
+###############################
