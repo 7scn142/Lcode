@@ -1,0 +1,28 @@
+# 1. build val_to_freq hashmap
+# 2. use array index as frequency(upper bound is len(nums))
+
+class Solution(object):
+    def topKFrequent(self, nums, k):
+        """
+        :type nums: List[int]
+        :type k: int
+        :rtype: List[int]
+        """
+        res = []
+        value_to_freq = {}
+        freq_bucket = [[] for _ in range(len(nums) + 1)]
+        #build val to freq hashmap
+        for num in nums:
+            value_to_freq[num] = value_to_freq.get(num, 0) + 1
+        #freq bucket
+        for num in value_to_freq:
+            freq = value_to_freq[num]
+            freq_bucket[freq].append(num)
+        
+        i = len(freq_bucket) - 1
+        while len(res) < k and i >= 0:
+            if freq_bucket[i]:
+                res += freq_bucket[i]
+            i -= 1
+        return res[:k + 1]
+        
