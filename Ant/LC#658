@@ -29,5 +29,46 @@ class Solution(object):
         
         
 #################################################
-# better solution: hashmap {dist : point list}; using len(heapq) == k to compare with each of later points
+# better solution: 
+# 1. hashmap {dist : point list}; 
+# 2. using len(heapq) == k to compare with each of later points
+# 3. O[n + (n - k)logk]
+# Notes: 
+# 1. to use Max_heap, need to take the negative value of distance; thus, we iterate elements from largest(0) to smallest(-6) 
+# 2. points shall have duplicate distance
 #################################################
+import heapq
+
+class Solution(object):
+    def findClosestElements(self, arr, k, x):
+        """
+        :type arr: List[int]
+        :type k: int
+        :type x: int
+        :rtype: List[int]
+        """     
+        if not arr:
+            return []
+        res = []
+        dists = [-abs(num - x) for num in arr ]
+        dist_to_arr = {}
+        for i in range(len(dists)):
+            if dists[i] in dist_to_arr:
+                dist_to_arr[dists[i]].append(arr[i])
+            else:
+                dist_to_arr[dists[i]] = [arr[i]]
+        
+        dist_set = dist_to_arr.keys()
+        idx = min(k, len(dist_set))
+        candi = dist_set[: idx]
+        heapq.heapify(candi)
+        for dist in dist_set[idx: ]:
+            heapq.heappush(candi, dist)
+            heapq.heappop(candi)
+        
+        for dist in sorted(list(candi), reverse = True):
+            if len(res) < k:
+                res += dist_to_arr[dist]
+            else:
+                break
+        return sorted(res[: k])
