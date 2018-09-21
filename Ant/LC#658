@@ -1,3 +1,6 @@
+#Quick select: kth smallest element O(n)
+#
+#
 #https://leetcode.com/problems/find-k-closest-elements/description/
 #############################################
 # intuitive solution: hashmap {dist : point list}, O(nlogn), needs to output sorted 
