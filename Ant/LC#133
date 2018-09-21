@@ -1,0 +1,47 @@
+
+"""
+Definition for a undirected graph node
+class UndirectedGraphNode:
+    def __init__(self, x):
+        self.label = x
+        self.neighbors = []
+"""" 
+from collections import deque
+
+class Solution:
+    """
+    @param: node: A undirected graph node
+    @return: A undirected graph node
+    """
+    def cloneGraph(self, node):
+        if not node:
+            return None
+        
+        old = self.getNodes(node)
+        
+        mapping = {}
+        
+        for curr in old:
+            mapping[curr] = UndirectedGraphNode(curr.label)
+            
+        for curr in old:
+            new_node = mapping[curr]
+            for neighbor in curr.neighbors:
+                new_neighbor = mapping[neighbor]
+                new_node.neighbors.append(new_neighbor)
+            
+        return mapping[node]
+        
+    
+    
+    def getNodes(self, node):
+        ret = set([node])
+        queue = deque([node])
+        
+        while queue:
+            curr = queue.popleft()
+            for n in curr.neighbors:
+                if n not in ret:
+                    ret.add(n)
+                    queue.append(n)
+        return ret
