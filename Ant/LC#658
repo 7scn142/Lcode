@@ -1,0 +1,33 @@
+#https://leetcode.com/problems/find-k-closest-elements/description/
+#############################################
+# intuitive solution: hashmap {dist : point list}, O(nlogn), needs to output sorted 
+#############################################
+class Solution(object):
+    def findClosestElements(self, arr, k, x):
+        """
+        :type arr: List[int]
+        :type k: int
+        :type x: int
+        :rtype: List[int]
+        """     
+        if not arr:
+            return []
+        res = []
+        dists = [abs(num - x) for num in arr ]
+        dist_to_arr = {}
+        for i in range(len(dists)):
+            if dists[i] in dist_to_arr:
+                dist_to_arr[dists[i]].append(arr[i])
+            else:
+                dist_to_arr[dists[i]] = [arr[i]]
+        for dist in sorted((set(dists))):
+            if len(res) < k:
+                res += dist_to_arr[dist]
+            else:
+                break
+        return sorted(res[: k])
+        
+        
+#################################################
+# better solution: hashmap {dist : point list}; using len(heapq) == k to compare with each of later points
+#################################################
