@@ -35,7 +35,7 @@ class Solution(object):
 # 3. O[n + (n - k)logk]
 # Notes: 
 # 1. to use Max_heap, need to take the negative value of distance; thus, we iterate elements from largest(0) to smallest(-6) 
-# 2. points shall have duplicate distance
+# 2. points may have duplicate distance
 #################################################
 import heapq
 
