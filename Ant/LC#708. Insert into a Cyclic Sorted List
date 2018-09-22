@@ -1,5 +1,6 @@
 ################################3
-# insert to cyclic linked list
+# insert to cyclic linked list;
+# take care of head, tail and in the middle
 ################################
 """
 Definition of ListNode
