@@ -1,0 +1,43 @@
+################################3
+# insert to cyclic linked list
+################################
+"""
+Definition of ListNode
+class ListNode(object):
+
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+"""
+
+
+class Solution:
+    """
+    @param: node: a list node in the list
+    @param: x: An integer
+    @return: the inserted new list node
+    """
+    def insert(self, node, x):
+        res = ListNode(x)
+        if not node:
+            res.next = res
+            return res
+        
+        head = node
+        while node:
+            if node.val <= x and node.next.val >= x:
+                break
+            #print node.val, x, node.next.val
+            if node.val > node.next.val and (node.val < x or node.next.val > x):
+                break
+            if node.val == x:
+                break
+            node = node.next
+            if head == node:
+                break
+
+        temp = node.next
+        node.next = res
+        res.next = temp
+
+        return res
