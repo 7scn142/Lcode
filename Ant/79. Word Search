@@ -1,0 +1,86 @@
+
+############################################
+# DFS, pay attention don't reuse, need a better way to pass out the result
+# if return the coordinate path is needed, need one more list to record the i, j
+############################################
+
+class Solution:
+    """
+    @param board: A list of lists of character
+    @param word: A string
+    @return: A boolean
+    """
+        # write your code here
+    res = False
+    def exist(self, board, word):
+        """
+        :type board: List[List[str]]
+        :type word: str
+        :rtype: bool
+        """
+        if not board:
+            return False
+        if len(board) * len(board[0]) < len(word):
+            return False
+
+        starter_candi = []
+        # find first char match 
+        for i in range(len(board)):
+            for j in range(len(board[0])):
+                if board[i][j] == word[0]:
+                    starter_candi.append([i, j])
+        for candi in starter_candi:
+            visited = [candi]
+            self.dfs(board, word, candi, [word[0]], visited)
+            #self.dfs(board, word, candi, [word[0]])
+            if self.res:
+                return True
+        return False
+
+    def dfs(self, board, word, candi, path, visited):
+        dx = [0, 1, -1, 0]
+        dy = [1, 0, 0, -1]
+        
+        if ''.join(path) == word:
+            self.res = True
+            return 
+        for i in range(4):
+            next_x = candi[0] + dx[i]
+            next_y = candi[1] + dy[i]
+            if 0 <= next_x < len(board) and 0 <= next_y < len(board[0]):
+                if [next_x, next_y] in visited:
+                    continue
+                if board[next_x][next_y] == word[len(path)]:
+                    visited.append([next_x, next_y])
+                    path.append(board[next_x][next_y])
+                    self.dfs(board, word, [next_x, next_y], path, visited)
+                    path.pop()
+                    visited.pop()
+                    
+###########################################################3
+# better time consuming
+###########################################################
+
+class Solution(object):
+    def exist(self, board, word):
+        if not board:
+            return False
+        for i in xrange(len(board)):
+            for j in xrange(len(board[0])):
+                if self.dfs(board, i, j, word):
+                    return True
+        return False
+
+    # check whether can find word, start at (i,j) position    
+    def dfs(self, board, i, j, word):
+        if len(word) == 0: # all the characters are checked
+            return True
+        if i<0 or i>=len(board) or j<0 or j>=len(board[0]) or word[0]!=board[i][j]:
+            return False
+        tmp = board[i][j]  # first character is found, check the remaining part
+        board[i][j] = "#"  # avoid visit agian 
+        # check whether can find "word" along one direction
+        res = self.dfs(board, i+1, j, word[1:]) or self.dfs(board, i-1, j, word[1:]) \
+        or self.dfs(board, i, j+1, word[1:]) or self.dfs(board, i, j-1, word[1:])
+        board[i][j] = tmp
+        return res
