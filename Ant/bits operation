@@ -3,7 +3,7 @@
 #
 #############################################
 class Solution(object):
-    def hammingWeight(self, n):
+    def countingBits(self, n):
         """
         :type n: int
         :rtype: int
@@ -13,6 +13,18 @@ class Solution(object):
             n = n & n - 1
             res += 1
         return res
+        
+        
+JAVA:
+    public int countingBits(int n) {
+        
+        int result = 0;
+        while(n != 0){
+            n &= n - 1;
+            result += 1;
+        }
+        return result;
+    }
         
 #############################################
 # reverse bits
