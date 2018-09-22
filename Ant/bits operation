@@ -1,0 +1,30 @@
+#############################################
+# counting number of bits 
+#
+#############################################
+class Solution(object):
+    def hammingWeight(self, n):
+        """
+        :type n: int
+        :rtype: int
+        """
+        res = 0
+        while n:
+            n = n & n - 1
+            res += 1
+        return res
+        
+#############################################
+# reverse bits
+#
+#############################################
+class Solution:
+    # @param n, an integer
+    # @return an integer
+    def reverseBits(self, n):
+        res = 0
+        for _ in range(32):
+            res = (res << 1) + (n & 1)
+            n>>=1
+            #print bin(n)
+        return res
