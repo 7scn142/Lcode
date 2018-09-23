@@ -1,0 +1,39 @@
+###########################################33
+# using basic Union-Find
+###########################################
+
+class ConnectingGraph:
+    """
+    @param: n: An integer
+    """
+    def __init__(self, n):
+        # do intialization if necessary
+        self.root = [0 for _ in range(n + 1)]
+    """
+    @param: a: An integer
+    @param: b: An integer
+    @return: nothing
+    """
+    def connect(self, a, b):
+        # union
+        root_a = self.find(a)
+        root_b = self.find(b)
+        if not root_a == root_b:
+            self.root[root_a] = root_b
+        
+    """
+    @param: a: An integer
+    @param: b: An integer
+    @return: A boolean
+    """
+    def query(self, a, b):
+        # find
+        if self.find(a) == self.find(b):
+            return True
+        return False
+            
+    def find(self, x):
+        if self.root[x] == 0:
+            return x
+        self.root[x] = self.find(self.root[x])
+        return self.root[x]
