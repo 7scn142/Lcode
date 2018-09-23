@@ -1,0 +1,12 @@
+class UnionFind:
+    father = []
+    def find(x):
+        if father[x] == x:
+            return x
+        return father[x] = self.find(father[x])
+        
+    def union(a, b):
+        root_a = self.find(a)
+        root_b = self.find(b)
+        if not root_a == root_b:
+            father[root_a] = root_b
