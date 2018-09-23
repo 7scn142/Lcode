@@ -1,13 +1,26 @@
-class UnionFind:
+class UnionFind(object):
     father = []
-    def find(x):
+    def find(self,x):
         if self.father[x] == x:
             return x
         self.father[x] = self.find(self.father[x])
         return self.father[x]
         
-    def union(a, b):
+    def union(self, a, b):
         root_a = self.find(a)
         root_b = self.find(b)
         if not root_a == root_b:
             self.father[root_a] = root_b
+####
+#### non-recursion find
+####
+	def find(self, node):
+        path = []
+        while self.father[node] != node:
+            path.append(node)
+            node = self.father[node]
+            
+        for n in path:
+            self.father[n] = node
+            
+        return node
