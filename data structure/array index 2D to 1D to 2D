@@ -1,0 +1,17 @@
+###############################
+# col is the number of columns in the array
+###############################
+
+def one2two(nums, col):
+    res = []
+    for num in nums:
+        x = num // col
+        y = num % col
+        res.append([x, y])
+    return res
+
+def two2one(nums, col):
+    res = []
+    for num in nums:
+        res.append([num[0] * col + num[1]])
+    return res
