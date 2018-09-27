@@ -1,0 +1,5 @@
+  File system:
+  1. Tree structure, parent & child
+  2. authorization, distribution list, admin/root -> read/write
+  3. FAT: file allocation table, hashmap from name to head of file hardware address; address is a linked list
+  
