@@ -1,0 +1,65 @@
+######################################################
+# think from the other way around, if 'O' is on the boarder(first or last row/col), 
+# all the 'O' that can be reached from it shall not be changed, thus, 
+# all the left 'O' should be changed to 'X'
+######################################################
+
+
+from collections import deque
+class Solution:
+    """
+    @param: board: board a 2D board containing 'X' and 'O'
+    @return: nothing
+    """
+    def surroundedRegions(self, board):
+        if not board:
+            return board
+        row_n = len(board)
+        col_n = len(board[0])
+        boarderO = []
+        # add all the boarder 'O' into list
+        for i in range(row_n):
+            for j in range(col_n):
+                if i == 0 or i == row_n - 1:
+                    if board[i][j] == 'O':
+                        boarderO.append([i, j])
+                        board[i][j] = '-'
+                if j == 0 or j == col_n - 1:
+                    if [i, j] in [[0, 0], [0, col_n - 1], [row_n - 1, 0], [row_n - 1, col_n - 1]]:
+                        continue
+                    if board[i][j] == 'O':
+                        boarderO.append([i, j])
+                        board[i][j] = '-'
+        # call BFS for each of the element in boarderO
+        for idx in boarderO:
+            self.bfs(idx, board)
+
+        for i in range(row_n):
+            for j in range(col_n):
+                if board[i][j] == 'O':
+                    board[i][j] = 'X'
+                if board[i][j] == '-':
+                    board[i][j] = 'O'
+        
+    def bfs(self, idx, board):
+        dx = [0, -1, 1, 0]
+        dy = [-1, 0, 0, 1]
+        que = deque([idx])
+        row_n = len(board)
+        col_n = len(board[0])
+        while que:
+            curr = que.popleft()
+            px = curr[0]
+            py = curr[1]
+            for i in range(4):
+                x = px + dx[i]
+                y = py + dy[i]
+                if not 0 <= x < row_n or not 0 <= y < col_n:
+                    continue
+                if board[x][y] == 'O':
+                    que.append([x, y])
+                    board[x][y] = '-'
+        return
+
+        
+        
