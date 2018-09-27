@@ -1,0 +1,24 @@
+#############################
+# key is to find the first place that meets the a + b == c
+# then the consequencial chars should follow the rule till the end
+#############################
+class Solution(object):
+
+    def isAdditiveNumber(self, num):
+        if not num or len(num) < 3:
+            return False
+        for i in range(1, len(num) - 1):
+            for j in range(i + 1, len(num)):
+                a = num[0 : i]
+                b = num[i : j]
+                if not a == str(int(a)) or not b == str(int(b)):
+                    break
+                c = str(int(a) + int(b))
+                while num.startswith(c, j) and j < len(num):
+                    j += len(c)
+                    a = b
+                    b = c
+                    c = str(int(a) + int(b))
+                    if j == len(num):
+                        return True
+        return False 
