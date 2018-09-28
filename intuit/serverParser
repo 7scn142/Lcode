@@ -1,0 +1,73 @@
+from collections import deque
+def config(server):
+    #parse the input
+    nameToAtt, ParentToChild = stringParser(server)
+    print(nameToAtt, ParentToChild)
+    roots = ParentToChild['root']
+    que = deque(roots)
+    while que:
+        root = que.popleft()
+        for child in ParentToChild[root]:
+            que.append(child)
+            for att in nameToAtt[root]:
+                if att in nameToAtt[child]:
+                    continue
+                nameToAtt[child][att] = nameToAtt[root][att]
+
+    result = valToString(nameToAtt)
+    
+    return result
+
+def stringParser(server):
+    leftBrac = []
+    rightBrac = []
+    ParentToChild = {}
+    ParentToChild['root'] = []
+    nameToAtt = {}
+    att = []
+    inputLines = server.split('\n')
+    for line in inputLines:
+        if '[' in line:
+            names = line[1 : -1]
+            if ':' in names:
+                child, parent = names.split(':')
+                if parent not in ParentToChild:
+                    ParentToChild[parent] = []
+                else:
+                    ParentToChild[parent].append(child)
+            else:
+                child = names
+                ParentToChild['root'].append(names)
+        else:
+            att = line.split(' = ')
+            if child not in nameToAtt:
+                nameToAtt[child] = {}
+            if len(att) == 2:
+                nameToAtt[child][att[0]] = att[1]
+            
+    return nameToAtt, ParentToChild
+    
+def valToString(nameToAtt):
+    output = []
+    name_list = sorted(nameToAtt.keys())
+    for name in name_list:
+        output.append('[' + name + ']\n')
+        att_list = sorted(nameToAtt[name].keys())
+        for att in att_list:
+            value = nameToAtt[name][att]
+            print(type(att))
+            print(type(value))
+            output.append(att + ' = ' + value + '\n')
+        output.append('\n')
+    return ''.join(output)
+
+
+input_str = '[clone_server:base_server]\n\
+env = xy\n\
+root = bb\n\
+disk = 200G\n\
+\n\
+[base_server]\n\
+ram = 16G\n\
+disk = 15G'
+print(config(input_str))
