@@ -1,0 +1,34 @@
+def common_ancestor(candidate, tree):
+    family = {}
+    for pair in tree:
+        if not pair[1] in family:
+            family[pair[1]] = [pair[0]]
+        else:
+            family[pair[1]].append(pair[0])
+    one = candidate[0]
+    two = candidate[1]
+    
+    set1 = bfs(one, family)
+    set2 = bfs(two, family)
+    for one_ans in set1:
+        if one_ans in set2:
+            return True
+    return False
+    
+    
+from collections import deque
+def bfs(child, family):
+    if child not in family:
+        return set([])
+    que = deque(family[child])
+    set_ans = set()
+    while que:
+        ances = que.popleft()
+        set_ans.add(ances)
+        if ances not in family:
+            continue
+        for anc in family[ances]:
+            que.append(anc)
+            
+    return set_ans
+    
