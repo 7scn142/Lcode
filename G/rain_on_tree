@@ -1,0 +1,36 @@
+####################################
+# this question is to ask the max_value of all the path from root to leaves
+####################################
+
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def binaryTreePaths(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[str]
+        """
+        active = [root]
+        result = []
+        self.dfs(root, result, [])
+        path_max = [max(i) for i in result]
+        
+        return max(path_max)
+    
+    def dfs(self, root, result, path):
+        if not root.left and not root.right:
+            path.append(root.val)
+            result.append(path[:])
+            return 
+        path.append(root.val)
+        if root.left:
+            self.dfs(root.left, result, path)
+            path.pop()
+        if root.right:
+            self.dfs(root.right, result, path)
+            path.pop()
