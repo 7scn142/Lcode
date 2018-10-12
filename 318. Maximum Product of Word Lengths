@@ -1,0 +1,24 @@
+	 '''
+	 * @param words
+	 * @return
+	 * 
+	 * 		The soultion is calcuated by doing a product of the length of
+	 *         each string to every other string. Anyhow the constraint given is
+	 *         that the two strings should not have any common character. This
+	 *         is taken care by creating a unique number for every string. Image
+	 *         a an 32 bit integer where 0 bit corresponds to 'a', 1st bit
+	 *         corresponds to 'b' and so on.
+	 * 
+	 *         Thus if two strings contain the same character when we do and
+	 *         "AND" the result will not be zero and we can ignore that case.
+	 '''
+
+class Solution(object):
+    def maxProduct(self, words):
+        d = {}
+        for w in words:
+            mask = 0
+            for c in set(w):
+                mask |= (1 << (ord(c) - 97))
+            d[mask] = max(d.get(mask, 0), len(w))
+        return max([d[x] * d[y] for x in d for y in d if not x & y] or [0])
