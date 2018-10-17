@@ -1,0 +1,46 @@
+class Solution:
+    """
+    @param s: The string s
+    @param excludeList: The excludeList
+    @return: Return the most frequent words
+    """
+    def getWords(self, s, excludeList):
+        s = s.lower()
+        words = []
+        p = ''
+        for char in s:
+            if char < 'a' or char > 'z':
+                if p != '':
+                    words.append(p)
+                p = ''
+            else:
+                p += char
+        if p != '':
+            words.append(p)
+        
+        
+        excludeset = set(excludeList)
+        max_count = 0
+        res = []
+        word_to_count = {}
+        for word in words:
+            word = word.strip()
+            if not word[0].isalpha():
+                word = word[1 :]
+            if len(word) == 0:
+                continue
+            if not word[-1].isalpha():
+                word = word[: -1]
+            word = word.strip()
+            if len(word) == 0:
+                continue
+            if word in excludeset:
+                continue
+            word_to_count[word] = word_to_count.get(word, 0) + 1
+            if word_to_count[word] > max_count:
+                res = [word]
+                max_count = word_to_count[word]
+            elif word_to_count[word] == max_count:
+                res.append(word)
+                
+        return res
