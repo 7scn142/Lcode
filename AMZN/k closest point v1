@@ -1,0 +1,34 @@
+import heapq
+
+class Type:
+    def __init__(self, dist, point):
+        self.dist = dist
+        self.point = point
+
+    def __cmp__(self, other):
+        if other.dist != self.dist:
+            return other.dist - self.dist
+        if other.point[0] != self.point[0]:
+            return other.point[0] - self.point[0]
+        return other.point[1] - self.point[1]
+
+heap = []
+def kClosest(points, origin, k):
+    for point in points:
+        dist = getDistance(point, origin)
+        heapq.heappush(heap, Type(dist, point))
+        if len(heap) > k:
+            heapq.heappop(heap)
+
+    ret = []
+    while len(heap) > 0:
+        ret.append(heapq.heappop(heap).point)
+
+    ret.reverse()
+    return ret
+
+def getDistance(a, b):
+    dist = (a[0] - b[0])**2 + (a[1] - b[1])**2
+    return dist
+
+print kClosest([[4,6],[4,7],[4,4],[2,5],[1,1]], [0,0], 3)
