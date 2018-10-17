@@ -1,0 +1,60 @@
+    def dronePair(self, leave, back, limit):
+        # input: leave: [[id, ordo], ...], back: [[id, ordo], ...]
+        # return: pairs of id whose ordo sum is closet to but not larger than limit
+        leave_ordo_to_id = dict()
+        back_ordo_to_id = dict()
+        bestDist = [[], []]
+        bestDistSum = 0
+        res = []
+
+        # for leave list: build hashmap from ordometer reading to drone id
+        for drone_l in leave:
+            if drone_l[1] in leave_ordo_to_id:
+                leave_ordo_to_id[drone_l[1]].append(drone_l[0])
+            else:
+                leave_ordo_to_id[drone_l[1]] = [drone_l[0]]
+        # for return list: build hashmap from ordometer reading to drone id
+        for drone_b in back:
+            if drone_b[1] in back_ordo_to_id:
+                back_ordo_to_id[drone_b[1]].append(drone_b[0])
+            else:
+                back_ordo_to_id[drone_b[1]] = [drone_b[0]]
+        # sort the two ordometer reading lists
+        sorted_leave_ordo = sorted(list(leave_ordo_to_id.keys()))
+        sorted_back_ordo = sorted(list(back_ordo_to_id.keys()))
+
+        # iterate the leave distance list, find the best match in return list that
+        # -meets the requirement; update the best result when necessary
+        for leave_ordo in sorted_leave_ordo:
+            best_match = self.biSearchClosest(sorted_back_ordo, limit - leave_ordo)
+            match_sum = leave_ordo + best_match
+            if  bestDistSum < match_sum < limit:
+                bestDistSum = match_sum
+                bestDist = [[leave_ordo, best_match]]
+            elif bestDistSum == match_sum:
+                bestDistSum = match_sum
+                bestDist.append([leave_ordo, best_match])
+            else:
+                continue
+        # for each pair of best distance, find their drone ID and fill into the result
+        for pair in bestDist:
+            leave_id = leave_ordo_to_id[pair[0]]
+            back_id = back_ordo_to_id[pair[1]]
+            for l in leave_id:
+                for b in back_id:
+                    res.append([l, b])
+
+        return res
+    # input: lists of value, target value
+    # return: largest element in candis that is smaller than target
+    # algorithm: binary search
+    def biSearchClosest(self, candis, target):
+        start = 0
+        end = len(candis)
+        while start + 1 < end:
+            mid = (start + end) / 2
+            if candis[mid] >= target:
+                end = mid
+            else:
+                start = mid
+        return candis[start]
