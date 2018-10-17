@@ -1,0 +1,31 @@
+    def kClosest(self, points, origin, k):
+        # handle unlegitimate input
+        if origin is None or len(origin) != 2 or len(points) < 1:
+            return None
+
+        if k > len(points):
+            return points
+
+        # hash map from distance to points list
+        dist_to_points = dict()
+        res = []
+        # build the distance to points mapping relationship
+        for point in points:
+            dist = self.getDistance(point, origin)
+            if dist in dist_to_points:
+                dist_to_points[dist].append(point)
+            else:
+                dist_to_points[dist] = [point]
+        # record the points from near to far, monitor the size of return list
+        sorted_distances = sorted(list(dist_to_points.keys()))
+        for dis in sorted_distances:
+            point_list = sorted(dist_to_points[dis], key = lambda i : i[0])
+            if len(res) < k:
+                res += point_list
+        return res[:k]
+
+    # input: two points like [x, y]
+    # output: squared distance
+    def getDistance(self, a, b):
+        dist = (a[0] - b[0])**2 + (a[1] - b[1])**2
+        return dist
