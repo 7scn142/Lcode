@@ -1,0 +1,16 @@
+    def KSubstring(self, stringIn, K):
+        if K > len(stringIn) or not stringIn:
+            return 0
+        
+        res = []
+        for i in range(len(stringIn) - K + 1):
+            curr_set = set()
+            for idx in range(i, i + K):
+                if stringIn[idx] not in curr_set:
+                    curr_set.add(stringIn[idx])
+                else:
+                    break
+            if len(curr_set) == K:
+                res.append(stringIn[i : idx + 1])
+        #print res
+        return len(set(res))
