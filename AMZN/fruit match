@@ -1,0 +1,25 @@
+      def fruit_match(self, code_list, cart):                                                                                     
+        # code_list[[]] should be a 'substring' like relationship to cart []                                                    
+        # return 1 as True, 0 as False                                                                                          
+        code_list_1d = []                                                                                                       
+        for code_l in code_list:                                                                                                
+            code_list_1d += code_l                                                                                              
+                                                                                                                                
+        # # match code_list_1d to cart                                                                                          
+        # if len(code_list_1d) > len(cart):                                                                                     
+        #     return 0                                                                                                          
+        if code_list_1d == []:                                                                                                  
+            return 1                                                                                                            
+                                                                                                                                
+        idx_code = 0                                                                                                            
+        for idx_cart in range(len(cart)):                                                                                       
+            if idx_code == len(code_list_1d) - 1:                                                                               
+                return 1                                                                                                        
+            if len(code_list_1d) - idx_code > len(cart) - idx_cart:                                                             
+                return 0                                                                                                        
+            if code_list_1d[idx_code] == cart[idx_cart] or code_list_1d[idx_code] == 'anything' or cart[idx_cart] == 'anything':
+                idx_code += 1                                                                                                   
+            else:                                                                                                               
+                idx_code = 0                                                                                                    
+                                                                                                                                
+        return 0                                                                                                                
