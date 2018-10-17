@@ -15,6 +15,8 @@ class Type:
 heap = []
 def kClosest(points, origin, k):
     for point in points:
+        if len(point) < 2:   
+            continue         
         dist = getDistance(point, origin)
         heapq.heappush(heap, Type(dist, point))
         if len(heap) > k:
