@@ -1,0 +1,38 @@
+    def shortestPath(self, targetMap):
+        starter = [0, 0]
+        des = 2
+        if not targetMap or targetMap[0][0]:
+            return -1
+        if targetMap[0][0] == 2:
+            return 0
+        res = self.map_bfs(targetMap, starter, des)
+
+        return res
+
+    def map_bfs(self, targetMap, starter, des):
+        res = 1
+        que = deque([starter])
+        dx = [0, -1, 1, 0]
+        dy = [-1, 0, 0, 1]
+
+        while que:
+            # BFS level traverse
+            for _ in range(len(que)):
+                curr = que.popleft()
+                for i in range(4):
+                    x = curr[0] + dx[i]
+                    y = curr[1] + dy[i]
+                    if not (0 <= x < len(targetMap) and 0 <= y < len(targetMap[0])):
+                        continue
+
+                    if targetMap[x][y] == 0:
+                        que.append([x, y])
+                        targetMap[x][y] = 1
+
+                    elif targetMap[x][y] == des:
+                        return res
+
+                    else:
+                        continue
+            res += 1
+        return -1
