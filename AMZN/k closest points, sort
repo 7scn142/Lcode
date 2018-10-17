@@ -11,6 +11,8 @@
         res = []
         # build the distance to points mapping relationship
         for point in points:
+            if len(point) < 2:   
+                continue         
             dist = self.getDistance(point, origin)
             if dist in dist_to_points:
                 dist_to_points[dist].append(point)
