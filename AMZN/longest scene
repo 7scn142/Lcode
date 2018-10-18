@@ -1,0 +1,31 @@
+class Solution:
+    """
+    @param str: The scene string
+    @return: Return the length longest scene
+    """
+    def getLongestScene(self, str):
+        # Write your code here
+        seg = []
+        print(Point())
+        p = Point()
+        for i in range(26):
+            p.x = len(str)
+            p.y = -1
+            seg.append(p)
+        for i in range(len(str)):
+            t = ord(str[i]) - ord('a')
+            seg[t].x = min(seg[t].x, i)
+            seg[t].y = max(seg[t].y, i)
+        seg.sort()
+        maxlen = seg[0].y - seg[0].x + 1
+        posl, posr = seg[0].x, seg[0].y
+        ans = maxlen
+        for i in range(1, 26):
+            if (seg[i].x < len(str) and seg[i].y >= 0) :
+                if (seg[i].x <= posr):
+                    posr = max(posr, seg[i].y)
+                else:
+                    posl = seg[i].x
+                    posr = seg[i].y
+                ans = max(ans, posr - posl + 1)
+        return ans
