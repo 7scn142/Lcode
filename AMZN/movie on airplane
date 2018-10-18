@@ -1,0 +1,32 @@
+class Solution:
+    """
+    @param t: the length of the flight
+    @param dur: the length of movies 
+    @return: output the lengths of two movies
+    """
+    def aerial_Movie(self, t, dur):
+        # two sum closest
+        target = t - 30
+        res = [] # [[]]
+        best_sum = 0
+        dur.sort()
+
+        left = 0
+        right = len(dur) - 1
+        while left < right:
+            pair_sum = dur[left] + dur[right]
+            if pair_sum > target:
+                right -= 1
+            else:
+                if pair_sum > best_sum:
+                    best_sum = pair_sum
+                    res = [[dur[left], dur[right]]]
+                elif pair_sum == best_sum:
+                    res.append([dur[left], dur[right]])
+                left += 1
+        if len(res) == 1:
+            return res[0]
+        max_len = max([max(pair) for pair in res])
+        for pair in res:
+            if max_len in pair:
+                return pair
