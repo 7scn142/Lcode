@@ -27,3 +27,11 @@ def ip_2_cidr(start_ip, end_ip):
         start += 2 ** (32 - cidr_bits)
 
     return cidrs
+
+def ip_2_num(ip):
+    res = [0] * 4
+    num = 0
+    print ip.split('.')
+    res[0],res[1],res[2],res[3] = ip.split('.')
+    num = (int(res[0]) << 24) + (int(res[1]) << 16) + (int(res[2]) << 8) + int(res[3])
+    return num
