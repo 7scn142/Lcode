@@ -9,8 +9,8 @@ def ip_2_cidr(start_ip, end_ip):
              0xFFFFFFFF]
 
     cidrs = []
-    start, end = ip_2_num(start_ip), ip_2_num(end_ip). 围观我们@1point 3 acres
-    while start <= end:-google 1point3acres
+    start, end = ip_2_num(start_ip), ip_2_num(end_ip)
+    while start <= end:
         valid_bits = 32
         while valid_bits > 0:
             if start & masks[valid_bits - 1] != start:
@@ -18,7 +18,7 @@ def ip_2_cidr(start_ip, end_ip):
             valid_bits -= 1
 
         diff = end - start + 1
-        diff_bits = int(math.log(diff, 2)). from: 1point3acres 
+        diff_bits = int(math.log(diff, 2))
         same_bits = 32 - diff_bits
 
         cidr_bits = max(same_bits, valid_bits)
