@@ -1,0 +1,21 @@
+    def combinationSum(self, candidates, target):
+        # write your code here
+        candidates = sorted(list(set(candidates)))
+        ret = []
+        index = 0
+        combi = []
+        self.helper(candidates, target, ret, combi, index)
+        return ret
+    
+    def helper(self, candidates, target, ret, combi, index):
+        
+        if target == 0:
+            res = copy.deepcopy(combi)
+            ret.append(res)
+        
+        for i in range(index, len(candidates)):
+            if target < candidates[i]:
+                return 
+            combi.append(candidates[i])
+            self.helper(candidates, target - candidates[i], ret, combi, i)
+            combi.pop()
