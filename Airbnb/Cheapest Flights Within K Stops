@@ -1,0 +1,17 @@
+    def findCheapestPrice(self, n, flights, src, dst, K):
+        # write your code here
+        dp = [[float('inf')]*n for i in range(K+2)]
+        dp[0][src] = 0
+
+        for i in range(0, K+2):
+            dp[i][src] = 0
+            for flight in flights:
+                start_city = flight[0]
+                end_city = flight[1]
+                price = flight[2]
+                dp[i][end_city] = min(dp[i][end_city], (dp[i-1][start_city] + price))
+                
+        return dp[K+1][dst] if dp[K+1][dst] < float('inf') else -1
+        
+        
+    
