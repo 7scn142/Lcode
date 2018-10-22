@@ -1,0 +1,32 @@
+    def canAttendMeetings(self, intervals):
+        start = []
+        end = []
+        res = []
+        res_s = None
+        res_e = None
+        person = 0
+        for meet in intervals:
+            #for meet in meetings:
+            start.append(meet.start)
+            end.append(meet.end)
+        
+        startSet = set(start)
+        endSet = set(end)
+        
+        
+        
+        for i in range(min(start), max(end) + 1):
+            if i in startSet:
+                person += 1
+            if i in endSet:
+                person -= 1
+            
+            if not res_s and person == 0:
+                res_s = i
+                res_e = None
+            if res_s and person > 0:
+                res_e = i
+                res.append([res_s, res_e])
+                res_s = None
+                
+        return res
