@@ -1,1 +1,42 @@
 https://www.geeksforgeeks.org/8-puzzle-problem-using-branch-and-bound/
+
+def play(board):
+    m, n = len(board), len(board[0])
+    x, y = 0, 0
+    for i in xrange(len(board)):
+        for j in xrange(len(board[0])):
+            if board[j] == '0':
+                x, y = i, j
+
+    init_board = ''.join(''.join(row) for row in board)
+    heap = [(dis(x, y), x, y, init_board)]
+    visited = set()
+
+    while heap:
+        _, x, y, cur = heappop(heap)
+        if cur in visited: 
+            continue
+        visited.add(cur)
+
+        if cur == '123456780':
+            return True
+
+        for dx, dy in zip((1, -1, 0, 0), (0, 0, 1, -1)):
+            if x + dx < 0 or x + dx > m - 1 or y + dy < 0 or y + dy > n - 1:
+                continue
+            new_board = move(cur, x, y, x + dx, y + dy)
+            heappush(heap, (dis(x + dx, y + dy), x + dx, y + dy, new_board))
+
+    return False
+
+
+def dis(x, y):
+    return (x - 2) ** 2 + (y - 2) ** 2
+
+
+def move(cur, x, y, new_x, new_y):
+    board = list(cur)
+    pos = x * 3 + y
+    new_pos = new_x * 3 + new_y
+    board[pos], board[new_pos] = board[new_pos], board[pos]
+    return ''.join(board). 1point3acre
