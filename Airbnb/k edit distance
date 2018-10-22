@@ -1,0 +1,50 @@
+class TrieNode:
+    def __init__(self):
+        self.children = {}
+        self.isWord = False
+        self.word = ""
+        
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self,word):
+        node = self.root
+        for w in word:
+            if w not in node.children:
+                node.children[w] = TrieNode()
+            node = node.children[w]
+        node.isWord = True
+        node.word = word
+
+class Solution:
+    """
+    @param words: a set of stirngs
+    @param target: a target string
+    @param k: An integer
+    @return: output all the strings that meet the requirements
+    """
+    def kDistance(self, words, target, k):
+        # write your code here
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+        dp = [_ for _ in xrange(len(target)+1)]
+        self.res = []
+        self.helper(target, k, trie.root, dp, 0)
+        return self.res
+    
+    def helper(self, target, k, node, dp, length):
+        if node.isWord and dp[-1]<=k:
+            self.res.append(node.word)
+        #print(node.word, dp)
+        nextDp = [0]*(len(target)+1)
+        nextDp[0] = length+1
+        for c in node.children:
+            #print(c)
+            for i in xrange(1, len(target)+1):
+                if c == target[i-1]:
+                    nextDp[i] = dp[i-1]
+                else:
+                    nextDp[i] = 1 + min(dp[i-1], nextDp[i-1], dp[i])
+            self.helper(target, k, node.children[c], nextDp, length+1)
