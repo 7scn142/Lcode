@@ -1,0 +1,8 @@
+given a list of lists as input:
+input1 = [['europe', 'netherland'], ['earth', 'north america'],['north america', 'mexico', 'canada'],['south america', 'cuba'],['asia', 'china']]
+query1 = ['mexico', 'canada', 'cuba']
+upon query, return the LCA of two location.
+for example: the result of query1 should be 'earth'
+
+
+#thought: build treeNodes, find the node in query, return the LCA 
