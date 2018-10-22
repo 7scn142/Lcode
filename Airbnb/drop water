@@ -1,0 +1,41 @@
+def pour_water(terrains, location, water):
+    print 'location', location
+    print 'len terrains', len(terrains) 
+    waters = [0] * len(terrains)
+    while water > 0:
+        left = location - 1
+        while left >= 0:
+            if terrains[left] + waters[left] > terrains[left + 1] + waters[left + 1]:
+                break
+            left -= 1
+
+        if terrains[left + 1] + waters[left + 1] < terrains[location] + waters[location]:
+            location_to_pour = left + 1
+            print 'set by left', location_to_pour
+        else:
+            right = location + 1
+            while right < len(terrains):
+                if terrains[right] + waters[right] > terrains[right - 1] + waters[right - 1]:
+                    print 'break, right: {}, right - 1:{}'.format(right, right - 1)
+                    break
+                right += 1
+            if terrains[right - 1] + waters[right - 1] < terrains[location] + waters[right - 1]:
+                location_to_pour = right - 1
+                print 'set by right', location_to_pour
+            else:
+                location_to_pour = location
+                print 'set to location', location_to_pour
+        waters[location_to_pour] += 1. visit 1point3acres for more.
+        print location_to_pour
+        water -= 1
+    max_height = max(terrains)
+
+    for height in xrange(max_height, -1, -1):
+        for i in xrange(len(terrains)):
+            if terrains + waters < height:
+                print ' ',
+            elif terrains < height <= terrains + waters:
+                print 'w',
+            else:
+                print '+',
+        print ''
