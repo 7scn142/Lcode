@@ -1,0 +1,21 @@
+    def letterCasePermutation(self, S):
+        if S is None:
+            return []
+        if not S:
+            return [""]
+        res = set([])
+        self.helper(S, 0, res)
+        return list(res)
+    
+    def helper(self, s, startIdx, res):
+        if s in res:
+            return
+        res.add(s)
+
+        for i in range(len(s)):
+            if s.isdigit():
+                continue
+            if ord(s[i]) - ord('a') >= 0:
+                self.helper(s[:i] + s[i].upper() + s[i + 1:], i + 1, res)
+            else:
+                self.helper(s[:i] + s[i].lower() + s[i + 1:], i + 1, res)
