@@ -1,64 +1,71 @@
-    /**
-     * @param s: A string 
-     * @param p: A string includes "." and "*"
-     * @return: A boolean
-     */
-    public boolean isMatch(String s, String p) {
-        if (s == null || p == null) {
-            return false;
-        }
+    def isMatch(self, A, B):
+        """ 
+        A is source B is pattern 
+        Implement regular expression matching with support for '.' and '*' 
+            '.' Matches any single character.
+            '*' Matches zero or more of the preceding element.
+            The matching should cover the entire input string (not partial)
+        Example:
+            isMatch("aa","a") -> false
+            isMatch("aa","aa") -> true
+            isMatch("aaa","aa") -> false
+            isMatch("aa", "a*") -> true
+            isMatch("aa", ".*") -> true
+            isMatch("ab", ".*") -> true
+            isMatch("aab", "c*a*b") -> true
+        """
         
-        boolean[][] memo = new boolean[s.length()][p.length()];
-        boolean[][] visited = new boolean[s.length()][p.length()];
+        m = len(A)
+        n = len(B)
+        f = [[None for j in range(n+1)] for i in range(m+1)]
+        f[0][0] = True
+        for j in range(1, n+1):
+            f[0][j] = False
+            if B[j-1] == '*' and j >= 2:
+                f[0][j] = f[0][j-2]
         
-        return isMatchHelper(s, 0, p, 0, memo, visited);
-    }
-    
-    private boolean isMatchHelper(String s, int sIndex,
-                                  String p, int pIndex,
-                                  boolean[][] memo,
-                                  boolean[][] visited) {
-        // "" == ""
-        if (pIndex == p.length()) {
-            return sIndex == s.length();
-        }
+        for i in range(1, m+1):
+            f[i][0] = False
+            for j in range(1, n+1):
+                f[i][j] = False
+                if B[j-1] == '*' and j >= 2:
+                    f[i][j] = f[i][j-2]
+                    if B[j-2] in (A[i-1], '.'):
+                        f[i][j] |= f[i-1][j]
+                elif B[j-1] in (A[i-1], '.'):
+                    f[i][j] = f[i-1][j-1]
+                    
+        return f[m][n]
+
+    def __isMatch(self, s, p):
+        import re
+        return re.match(p + '$', s) != None
+
+
+    def _bad_isMatch(self, s, p):
+        """ http://articles.leetcode.com/regular-expression-matching """
+        print "s, p = ", s, " | " , p 
         
-        if (sIndex == s.length()) {
-            return isEmpty(p, pIndex);
-        }
+        if len(p) == 0:
+            return len(s) == 0
         
-        if (visited[sIndex][pIndex]) {
-            return memo[sIndex][pIndex];
-        }
+        if len(p) <= 1:
+            return len(s) == len(p)
         
-        char sChar = s.charAt(sIndex);
-        char pChar = p.charAt(pIndex);
-        boolean match;
-        
-        // consider a* as a bundle
-        if (pIndex + 1 < p.length() && p.charAt(pIndex + 1) == '*') {
-            match = isMatchHelper(s, sIndex, p, pIndex + 2, memo, visited) ||
-                charMatch(sChar, pChar) && isMatchHelper(s, sIndex + 1, p, pIndex, memo, visited);
-        } else {
-            match = charMatch(sChar, pChar) && 
-                isMatchHelper(s, sIndex + 1, p, pIndex + 1, memo, visited);
-        }
-        
-        visited[sIndex][pIndex] = true;
-        memo[sIndex][pIndex] = match;
-        return match;
-    }
-    
-    private boolean charMatch(char sChar, char pChar) {
-        return sChar == pChar || pChar == '.';
-    }
-    
-    private boolean isEmpty(String p, int pIndex) {
-        for (int i = pIndex; i < p.length(); i += 2) {
-            if (i + 1 >= p.length() || p.charAt(i + 1) != '*') {
-                return false;
-            }
-        }
-        return true;
-    }
-}
+        # next char is not '*': must match current character
+        if len(p)>=2 and p[1] != '*':
+            #assert(p[0] != '*');
+            return (len(s)>0 and (p[0] == s[0] or p[0] == '.')) and self.isMatch(s[1:], p[1:])
+
+        # next char is '*'
+        # while ((p[0] == s[0]) or (p[0] == '.' and len(s)>0)):
+        while len(s)>0 and (p[0] == s[0] or p[0] == '.'):
+            if self.isMatch(s, p[2:]):
+                return True
+            print "old s: ", s
+            s = s[1:]
+            print "new s: ", s
+            #if len(s)==0 or len(p)==0:
+            #    break
+
+        return self.isMatch(s, p[2:])
