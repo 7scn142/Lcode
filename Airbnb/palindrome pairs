@@ -1,0 +1,30 @@
+    def palindromePairs(self, words):
+        # Write your code here
+        
+        def isPalin(word):
+            return word == word[::-1]
+            
+        words_hm = {}
+        for i, word in enumerate(words):
+            words_hm[word] = i
+            
+        res = []
+        for i, word in enumerate(words):
+            for j in range(len(word)+1):
+                pref = word[:j]
+                suf = word[j:]
+                
+                if isPalin(pref):
+                    # "lls"
+                    # pref = "ll", suf = "s"
+                    back = suf[::-1]
+                    if back != word and back in words_hm:
+                        res.append([words_hm[back], i])
+                        
+                if j != len(word) and isPalin(suf):
+                    back = pref[::-1]
+                    if back != word and back in words_hm:
+                        res.append([i, words_hm[back]])
+                        
+        # print res
+        return res
