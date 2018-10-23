@@ -6,3 +6,66 @@ for example: the result of query1 should be 'earth'
 
 
 #thought: build treeNodes, find the node in query, return the LCA 
+# input  = [['europe', 'netherland'], ['earth', 'north america', 'europe', 'asia'],['north america', 'mexico', 'canada'],['south america', 'cuba'],['asia', 'china']]
+    def mapandRoot(self, inputStr):
+        LocToCountTo = {}
+        vec1d = []
+        for vec in inputStr:
+            vec1d += vec
+        for loc in vec1d:
+            LocToCountTo[loc] = LocToCountTo.get(loc, 0) + 1
+            node = TreeNode(loc)
+            self.valToNode[loc] = node
+
+        for loc in LocToCountTo:
+            if LocToCountTo[loc] == 1:
+                return loc
+        return None
+
+# build complete tree from input
+    def parserTree(self, inputStr):
+        rootVal = self.mapandRoot(inputStr)
+        for loclist in inputStr:
+            parent = self.valToNode[loclist[0]]
+            for i in range(1, len(loclist)):
+                child = self.valToNode[loclist[i]]
+                parent.child.append(child)
+                child.parent = parent
+
+        return self.valToNode[rootVal]
+        
+# upon query, return the LCA
+    def query(self, nodesList):
+
+        if len(nodesList) < 1:
+            return None
+        if len(nodesList) < 2:
+            return self.valToNode[nodesList[0]]
+        if len(nodesList) < 3:
+            return self.LCA(nodesList[0], nodesList[1])
+
+        common_ances = nodesList[0]
+        for i in range(1, len(nodesList)):
+            common_ances = self.LCA(common_ances, nodesList[i])
+        return common_ances
+
+    def LCA(self, a, b):
+        node_a = self.valToNode[a]
+        node_b = self.valToNode[b]
+        ance_set = set()
+        while node_a:
+            ance_set.add(node_a)
+            node_a = node_a.parent
+        while node_b:
+            if node_b in ance_set:
+                return node_b
+            node_b = node_b.parent
+
+        return None
+
+
+class TreeNode:
+    def __init__(self, x):
+        self.val = x
+        self.child = []
+        self.parent = None
