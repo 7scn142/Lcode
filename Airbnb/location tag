@@ -47,7 +47,7 @@ for example: the result of query1 should be 'earth'
         common_ances = nodesList[0]
         for i in range(1, len(nodesList)):
             common_ances = self.LCA(common_ances, nodesList[i]).val
-        return self.valToNode[common_ances]
+        return self.valToNode[common_ances].val
 
 
     def LCA(self, a, b):
