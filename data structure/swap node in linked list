@@ -1,0 +1,47 @@
+##################################################
+# swap listnode, means we need a pointer to it's prev node and it's next node
+# after getting this, things are trivual, just swap the prev.next and prev.next.next
+##################################################
+
+"""
+Definition of ListNode
+class ListNode(object):
+    def __init__(self, val, next=None):
+        self.val = val
+        self.next = next
+"""
+
+class Solution:
+    """
+    @param head: a ListNode
+    @param v1: An integer
+    @param v2: An integer
+    @return: a new head of singly-linked list
+    """
+    def swapNodes(self, head, v1, v2):
+        if not head or not v1 or not v2:
+            return None
+        if v1 == v2:
+            return head
+            
+        
+        dummy = ListNode(None)
+        dummy.next = head
+        p = dummy
+        first = None
+        second = None
+        
+        while p and p.next:
+            if p.next.val == v1:
+                first = p
+            elif p.next.val == v2:
+                second = p
+            p = p.next
+        
+        if not first or not second:
+            return dummy.next
+
+        first.next, second.next = second.next, first.next
+        first.next.next, second.next.next = second.next.next, first.next.next
+
+        return dummy.next
