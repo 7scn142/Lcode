@@ -1,0 +1,14 @@
+#######################
+# return True if abc == a^3 + b^3 + c^3
+# 
+#######################
+def magicNum(num):
+  num_org = num
+  digits = []
+  while num > 9:
+    digits.append(num % 10)
+    num = num // 10
+  digits.append(num)
+  result = sum([i**3 for i in digits])
+  # print digits, result, num_org
+  return num_org == result
