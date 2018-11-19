@@ -1,0 +1,24 @@
+def nonRepeatNums(nums):
+  seen = set()
+  res = []
+  for n in nums:
+    if not n in seen:
+      res.append(n)
+      seen.add(n)
+  return ''.join(res)
+
+def twoPointer(nums):
+  left = 0
+  right = 1
+  ret = [nums[0]]
+  while right < len(nums):
+    if nums[left] == nums[right]:
+      right += 1
+    else:
+      ret.append(nums[right])
+      left = right
+      right += 1
+  return ''.join(ret)
+
+
+print twoPointer('1122345')
