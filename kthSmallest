@@ -1,0 +1,21 @@
+    def kthSmallest(self, k, nums):
+        left = 0
+        right = len(nums) - 1
+        while left <= right:
+            index = left - 1
+            # print left, right, nums, index, pivot
+            # smallest to k
+            for i in range(left, right):
+                if nums[i] < nums[right]:
+                    index += 1
+                    nums[index], nums[i] = nums[i], nums[index]
+            index += 1
+            nums[index], nums[right] = nums[right], nums[index]
+            if index == k - 1:
+                print nums
+                return nums[index]
+            elif index < k - 1:
+                left = index + 1
+            else:
+                right = index - 1
+        return -1
