@@ -1,3 +1,12 @@
+#######################################
+# head and tail are dummy nodes
+# head.next is the oldest to be removed
+# tail.pre is the newest
+# upon add, append to the node before tail
+#######################################
+
+
+
 class DoublyLinked:
     def __init__(self, key = None, val = None):
         self.key = key
