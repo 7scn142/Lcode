@@ -1,0 +1,63 @@
+class DoublyLinked:
+    def __init__(self, key = None, val = None):
+        self.key = key
+        self.val = val
+        self.pre = None
+        self.next = None
+
+
+class LRUCache:
+    """
+    @param: capacity: An integer
+    """
+    def __init__(self, capacity):
+        self.capacity = capacity
+        
+        self.keyToNode = {}
+        self.head = DoublyLinked()
+        self.tail = DoublyLinked()
+        
+        self.head.next = self.tail
+        self.tail.pre = self.head
+
+    """
+    @param: key: An integer
+    @return: An integer
+    """
+    def get(self, key):
+        if not key in self.keyToNode:
+            return -1
+        self.__remove(self.keyToNode[key])
+        self.__append(self.keyToNode[key])
+        
+        return self.keyToNode[key].val
+    """
+    @param: key: An integer
+    @param: value: An integer
+    @return: nothing
+    """
+    def set(self, key, value):
+        if key in self.keyToNode:
+            self.__remove(self.keyToNode[key])
+        new = DoublyLinked(key, value)
+        self.__append(new)
+        self.keyToNode[key] = new
+        if len(self.keyToNode) > self.capacity:
+            old = self.head.next
+            self.__remove(old)
+            del self.keyToNode[old.key]
+        
+    def __remove(self, node):
+        p = node.pre
+        n = node.next
+        
+        p.next = n
+        n.pre = p
+        
+    def __append(self, node):
+        p_tail = self.tail.pre
+        p_tail.next = node
+        node.pre = p_tail
+        
+        node.next = self.tail
+        self.tail.pre = node
